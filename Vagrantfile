@@ -1,6 +1,6 @@
 Vagrant.configure("2") do |config|
-    config.vm.box = "precise64"
-    config.vm.box_url = "http://files.vagrantup.com/precise64.box"
+    config.vm.box = "debian-7.3"
+    config.vm.box_url = "http://puppet-vagrant-boxes.puppetlabs.com/debian-73-x64-virtualbox-nocm.box"
 
     config.vm.define "gw" do |gw|
         gw.vm.hostname = "gw"
@@ -25,8 +25,10 @@ end
 
 $gwprov = <<SCRIPT
     function install_packages {
+        export DEBIAN_FRONTEND=noninteractive
         apt-get update
-        apt-get install -y build-essential pkg-config cmake libnspr4-dev libnss3-dev screen tor
+        apt-get upgrade -y
+        apt-get install -y build-essential pkg-config cmake libssl-dev libnspr4-dev libnss3-dev screen tor
 
         cd /tmp; wget https://badvpn.googlecode.com/files/badvpn-1.999.128.tar.bz2
         bunzip2 -c badvpn-1.999.128.tar.bz2 | tar xf -
